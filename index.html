@@ -1,0 +1,100 @@
+<!--- A drop down menu containing 5 continent name-->
+<!--  A Search Bar-->
+<!---A Header -->
+<!--- Color Changing mode of the body ----->
+<!----For mobile One row of cards and for desktop 4 row X 2 Columns -->
+<!---COuntry Card contains 1.A image 2.A h3 header 3.Three paragraphs- with text aligned to left -->
+
+<!--A Back button  --->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Country Cards</title>
+</head>
+<body>
+
+
+  <div id="country-cards" class="cards"></div>
+
+  <script>
+    // Fetch country data from the REST Countries API
+    fetch('https://restcountries.com/v3.1/all?fields=name,flags,population,capital,region')
+      .then(response => response.json())
+      .then(data => {
+        const countryCardsElement = document.getElementById('country-cards');
+
+        // Loop through the array of country objects and create a card for each country
+        data.forEach(country => {
+          // Create a card element
+          const cardElement = document.createElement('div');
+          cardElement.classList.add('card');
+
+          // Add an image element with the country's flag image URL
+          const flagElement = document.createElement('img');
+          flagElement.src = country.flags.png;
+          cardElement.appendChild(flagElement);
+
+          // Add a heading element with the country's name
+          const nameElement = document.createElement('h2');
+          nameElement.textContent = country.name.common;
+          cardElement.appendChild(nameElement);
+
+          // Add a paragraph element with the country's population
+          const populationElement = document.createElement('p');
+          populationElement.textContent = `Population: ${country.population.toLocaleString()}`;
+          cardElement.appendChild(populationElement);
+
+          // Add a paragraph element with the country's capital
+          const capitalElement = document.createElement('p');
+          capitalElement.textContent = `Capital: ${country.capital}`;
+          cardElement.appendChild(capitalElement);
+
+          // Add a paragraph element with the country's region
+          const regionElement = document.createElement('p');
+          regionElement.textContent = `Region: ${country.region}`;
+          cardElement.appendChild(regionElement);
+
+          // Add the card element to the country cards container
+          countryCardsElement.appendChild(cardElement);
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching country data:', error);
+      });
+
+
+
+  </script>
+
+  <style>
+    .cards{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .card {
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      margin: 16px;
+      padding: 16px;
+      width: 300px;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+  </style>
+</body>
+</html>
