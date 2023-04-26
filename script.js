@@ -9,9 +9,7 @@
 //Toggle the color scheme between light and dark mode (optional)
 
 // Fetch country data from the REST Countries API
-fetch(
-  "https://restcountries.com/v3.1/all?fields=name,flags,population,capital,region"
-)
+fetch("https://restcountries.com/v3.1/all")
   .then((response) => response.json())
   .then((data) => {
     const countryCardsElement = document.getElementById("country-cards");
@@ -47,6 +45,14 @@ fetch(
       regionElement.textContent = `Region: ${country.region}`;
       cardElement.appendChild(regionElement);
 
+      // Add a button element to view more details about the country
+      const detailsButton = document.createElement("button");
+      detailsButton.textContent = "View Details";
+      detailsButton.addEventListener("click", () => {
+        showCountryDetailPage(country);
+      });
+      cardElement.appendChild(detailsButton);
+
       // Add the card element to the country cards container
       countryCardsElement.appendChild(cardElement);
     });
@@ -54,3 +60,21 @@ fetch(
   .catch((error) => {
     console.error("Error fetching country data:", error);
   });
+
+//Search  bar
+const searchInput = document.getElementById("search-input");
+searchInput.addEventListener("input", (event) => {
+  const searchTerm = event.target.value.toLowerCase(); // convert search term to lowercase for case-insensitive matching
+  const countryCards = document.querySelectorAll(".card");
+
+  countryCards.forEach((card) => {
+    const nameElement = card.querySelector("h2");
+    const countryName = nameElement.textContent.toLowerCase();
+
+    if (countryName.includes(searchTerm)) {
+      card.style.display = "block"; // display the card if the country name matches the search term
+    } else {
+      card.style.display = "none"; // hide the card if the country name does not match the search term
+    }
+  });
+});
