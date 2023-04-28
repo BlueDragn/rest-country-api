@@ -45,13 +45,10 @@ fetch("https://restcountries.com/v3.1/all")
       regionElement.textContent = `Region: ${country.region}`;
       cardElement.appendChild(regionElement);
 
-      // Add a button element to view more details about the country
-      const detailsButton = document.createElement("button");
-      detailsButton.textContent = "View Details";
-      detailsButton.addEventListener("click", () => {
+      // Add an event listener to the card element to show the country detail page
+      cardElement.addEventListener("click", () => {
         showCountryDetailPage(country);
       });
-      cardElement.appendChild(detailsButton);
 
       // Add the card element to the country cards container
       countryCardsElement.appendChild(cardElement);
@@ -77,4 +74,51 @@ searchInput.addEventListener("input", (event) => {
       card.style.display = "none"; // hide the card if the country name does not match the search term
     }
   });
+});
+
+//Show country detail page
+function showCountryDetailPage(country) {
+  // Create a new HTML page with more detailed information about the country
+  const detailPage = document.createElement("div");
+
+  // Add an image element with the country's flag image URL
+  const flagElement = document.createElement("img");
+  flagElement.src = country.flags.png;
+  detailPage.appendChild(flagElement);
+
+  // Add a heading element with the country's name
+  const nameElement = document.createElement("h2");
+  nameElement.textContent = country.name.common;
+  detailPage.appendChild(nameElement);
+
+  // Add a paragraph element with the country's population
+  const populationElement = document.createElement("p");
+  populationElement.textContent = `Population: ${country.population.toLocaleString()}`;
+  detailPage.appendChild(populationElement);
+
+  // Add a paragraph element with the country's capital
+  const capitalElement = document.createElement("p");
+  capitalElement.textContent = `Capital: ${country.capital}`;
+  detailPage.appendChild(capitalElement);
+
+  // Add a paragraph element with the country's region
+  const regionElement = document.createElement("p");
+  regionElement.textContent = `Region: ${country.region}`;
+  detailPage.appendChild(regionElement);
+
+  // Add a button to go back to the previous page
+  const backButton = document.createElement("button");
+  backButton.textContent = "Back";
+  backButton.addEventListener("click", () => {
+    history.back();
+  });
+  detailPage.appendChild(backButton);
+
+  // Replace the current page with the detail page
+  document.body.innerHTML = "";
+  document.body.appendChild(detailPage);
+}
+//details button
+detailsButton.addEventListener("click", () => {
+  showCountryDetailPage(country);
 });
