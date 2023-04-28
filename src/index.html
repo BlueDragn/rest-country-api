@@ -18,17 +18,27 @@
     <!--Search Bar-->
     <input type="text" id="search-input" placeholder="Search countries by name...">
 
+    <!-- Sorting -->
+    <label for="continent-select">Filter by continent:</label>
+    <select id="continent-select">
+      <option value="">All</option>
+      <option value="Africa">Africa</option>
+      <option value="Americas">Americas</option>
+      <option value="Asia">Asia</option>
+      <option value="Europe">Europe</option>
+      <option value="Oceania">Oceania</option>
+    </select>
+
 <!-- Homepage with country cards -->
 <div id="homepage">
   <div id="country-cards" class="cards"></div>
 </div>
 
 <!-- Country detail page -->
-<!-- <div id="country-detail" style="display: none;">
-  <button id="back-button">Back</button>
-  <div id="country-info"></div>
-  <div id="border-countries"></div>
-</div> -->
+<div id="country-detail">
+  <h2>Country Detail</h2>
+</div>
+
 
     <script src="script.js"></script>
   </body>

@@ -57,6 +57,23 @@ fetch("https://restcountries.com/v3.1/all")
   .catch((error) => {
     console.error("Error fetching country data:", error);
   });
+//Sorting
+const continentSelect = document.getElementById("continent-select");
+continentSelect.addEventListener("change", (event) => {
+  const selectedContinent = event.target.value;
+  const countryCards = document.querySelectorAll(".card");
+  
+  countryCards.forEach((card) => {
+    const regionElement = card.querySelector("p:nth-of-type(3)");
+    const countryRegion = regionElement.textContent.substring(8); // get the text after "Region: "
+    
+    if (selectedContinent === "" || selectedContinent === countryRegion) {
+      card.style.display = "block"; // display the card if the continent matches the selected option, or if no option is selected
+    } else {
+      card.style.display = "none"; // hide the card if the continent does not match the selected option
+    }
+  });
+});
 
 //Search  bar
 const searchInput = document.getElementById("search-input");
@@ -76,49 +93,88 @@ searchInput.addEventListener("input", (event) => {
   });
 });
 
-//Show country detail page
+//show country details
 function showCountryDetailPage(country) {
-  // Create a new HTML page with more detailed information about the country
-  const detailPage = document.createElement("div");
+  // Hide the country cards container
+  document.getElementById("country-cards").style.display = "none";
 
-  // Add an image element with the country's flag image URL
-  const flagElement = document.createElement("img");
-  flagElement.src = country.flags.png;
-  detailPage.appendChild(flagElement);
+  // Show the country detail container
+  const countryDetailElement = document.getElementById("country-detail");
+  countryDetailElement.style.display = "block";
 
-  // Add a heading element with the country's name
-  const nameElement = document.createElement("h2");
+  // Set the country name in the detail container
+  const nameElement = countryDetailElement.querySelector("h2");
   nameElement.textContent = country.name.common;
-  detailPage.appendChild(nameElement);
 
-  // Add a paragraph element with the country's population
-  const populationElement = document.createElement("p");
-  populationElement.textContent = `Population: ${country.population.toLocaleString()}`;
-  detailPage.appendChild(populationElement);
+  // Create a dl element to hold the country details
+  const detailsListElement = document.createElement("dl");
+  countryDetailElement.appendChild(detailsListElement);
 
-  // Add a paragraph element with the country's capital
-  const capitalElement = document.createElement("p");
-  capitalElement.textContent = `Capital: ${country.capital}`;
-  detailPage.appendChild(capitalElement);
+  // Add the native name to the details list
+  addDetailToCountryPage(detailsListElement, "Native Name", country.name.native.common);
 
-  // Add a paragraph element with the country's region
-  const regionElement = document.createElement("p");
-  regionElement.textContent = `Region: ${country.region}`;
-  detailPage.appendChild(regionElement);
+  // Add the population to the details list
+  addDetailToCountryPage(detailsListElement, "Population", country.population.toLocaleString());
 
-  // Add a button to go back to the previous page
+  // Add the region to the details list
+  addDetailToCountryPage(detailsListElement, "Region", country.region);
+
+  // Add the subregion to the details list
+  addDetailToCountryPage(detailsListElement, "Sub Region", country.subregion);
+
+  // Add the capital to the details list
+  addDetailToCountryPage(detailsListElement, "Capital", country.capital[0]);
+
+  // Add the top level domain to the details list
+  addDetailToCountryPage(detailsListElement, "Top Level Domain", country.tld[0]);
+
+  // Add the currencies to the details list
+  const currencies = Object.values(country.currencies).map((currency) => currency.name).join(", ");
+  addDetailToCountryPage(detailsListElement, "Currencies", currencies);
+
+  // Add the languages to the details list
+  const languages = Object.values(country.languages).map((language) => language.name).join(", ");
+  addDetailToCountryPage(detailsListElement, "Languages", languages);
+
+  // Add the border countries to the details list
+  const borders = country.borders;
+  if (borders.length > 0) {
+    const borderCountries = [];
+    borders.forEach((border) => {
+      const borderCountry = getCountryByAlpha3Code(border);
+      if (borderCountry) {
+        borderCountries.push(borderCountry.name.common);
+      }
+    });
+    if (borderCountries.length > 0) {
+      addDetailToCountryPage(detailsListElement, "Border Countries", borderCountries.join(", "));
+    }
+  }
+
+  // Add a back button to the detail container
   const backButton = document.createElement("button");
   backButton.textContent = "Back";
   backButton.addEventListener("click", () => {
-    history.back();
-  });
-  detailPage.appendChild(backButton);
+    // Hide the country detail container
+    countryDetailElement.style.display = "none";
 
-  // Replace the current page with the detail page
-  document.body.innerHTML = "";
-  document.body.appendChild(detailPage);
+    // Show the country cards container
+    document.getElementById("country-cards").style.display = "flex";
+  });
+  countryDetailElement.appendChild(backButton);
 }
-//details button
-detailsButton.addEventListener("click", () => {
-  showCountryDetailPage(country);
-});
+
+function addDetailToCountryPage(detailsListElement, label, value) {
+  const dtElement = document.createElement("dt");
+  dtElement.textContent = label;
+  detailsListElement.appendChild(dtElement);
+
+  const ddElement = document.createElement("dd");
+  ddElement.textContent = value;
+  detailsListElement.appendChild(ddElement);
+}
+
+function getCountryByAlpha3Code(alpha3Code) {
+  return allCountries.find((country) => country.alpha3Code === alpha3Code);
+}
+
