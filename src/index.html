@@ -15,11 +15,21 @@
     <link href="style.css" rel="stylesheet" />
   </head>
   <body>
+    <nav class="nav-bar">
+      <ul>
+        <li><h3>Where in World?</h3></li>
+        <li>
+          <button class="color-selector">
+<img src="images/icon-moon.png" alt="">
+          </button>
+        </li>
+      </ul>
+    </nav>
     <!--Search Bar-->
     <input type="text" id="search-input" placeholder="Search countries by name...">
 
     <!-- Sorting -->
-    <label for="continent-select">Filter by continent:</label>
+    <label for="continent-select" id="filter">Filter by continent:</label>
     <select id="continent-select">
       <option value="">All</option>
       <option value="Africa">Africa</option>

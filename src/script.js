@@ -57,16 +57,16 @@ fetch("https://restcountries.com/v3.1/all")
   .catch((error) => {
     console.error("Error fetching country data:", error);
   });
-//Sorting
+//Sorting country by region
 const continentSelect = document.getElementById("continent-select");
 continentSelect.addEventListener("change", (event) => {
   const selectedContinent = event.target.value;
   const countryCards = document.querySelectorAll(".card");
-  
+
   countryCards.forEach((card) => {
     const regionElement = card.querySelector("p:nth-of-type(3)");
     const countryRegion = regionElement.textContent.substring(8); // get the text after "Region: "
-    
+
     if (selectedContinent === "" || selectedContinent === countryRegion) {
       card.style.display = "block"; // display the card if the continent matches the selected option, or if no option is selected
     } else {
@@ -95,8 +95,11 @@ searchInput.addEventListener("input", (event) => {
 
 //show country details
 function showCountryDetailPage(country) {
-  // Hide the country cards container
+  // Hide the country cards container,search input,
   document.getElementById("country-cards").style.display = "none";
+  document.getElementById("search-input").style.display = "none";
+  document.getElementById("filter").style.display = "none";
+  document.getElementById("continent-select").style.display = "none";
 
   // Show the country detail container
   const countryDetailElement = document.getElementById("country-detail");
@@ -107,11 +110,11 @@ function showCountryDetailPage(country) {
   nameElement.textContent = country.name.common;
 
   // Create a dl element to hold the country details
-  const detailsListElement = document.createElement("dl");
+  const detailsListElement = document.createElement("ul");
   countryDetailElement.appendChild(detailsListElement);
 
   // Add the native name to the details list
-  addDetailToCountryPage(detailsListElement, "Native Name", country.name.native.common);
+  addDetailToCountryPage(detailsListElement, "Native Name", country.name.native);
 
   // Add the population to the details list
   addDetailToCountryPage(detailsListElement, "Population", country.population.toLocaleString());
