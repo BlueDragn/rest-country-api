@@ -24,3 +24,14 @@ p {
   font-size: 16px;
   margin-bottom: 4px;
 }
+
+/* Country details page section*/
+.country-details{
+  border: 1px solid black;
+}
+.info-container{
+  border: 1px solid red;
+}
+.details-list{
+  border: 1px solid green;
+}
