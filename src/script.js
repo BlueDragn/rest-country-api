@@ -104,7 +104,7 @@ function showCountryDetailPage(country) {
   addDetailToCountryPage(detailsListElement, "Languages", Object.values(country.languages).join(", "));
   // // Add the border countries to the border countries list
   addDetailToCountryPage(detailsListElement, "Border Countries",country.borders);
-
+ 
 const borderListElement = document.getElementById("border-countries");
 
 
@@ -169,3 +169,9 @@ searchInput.addEventListener("input", (event) => {
     }
   });
 });
+
+
+function changeColor() {
+  var element = document.body;
+  element.classList.toggle("dark-mode");
+}

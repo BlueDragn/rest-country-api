@@ -1,7 +1,73 @@
+body{
+  margin: 0;
+  padding: 0;
+}
+/**  Nav Bar **/
+.nav-bar {
+  width: 1440px;
+  height: 80px;
+  /* border: 1px solid red; */
+  background: #FFFFFF;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.0562443);
+}
+li{
+  display: flex;
+}
+.nav-items {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Nunito Sans';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 33px;
+  /* identical to box height */
+  height: 33px;
+  /* border: 1px solid green; */
+  list-style: none;
+  color: #111517;
+}
+
+.header {}
+
+/**Color Mode selector**/
+.color-modes {
+  Width: 108px;
+  Height: 22px;
+  list-style: none;
+  font-family: 'Nunito Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.color-selector-btn {
+  Width: 108px;
+  Height: 30px;
+  /* background-color: #FFFFFF; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* border: none; */
+}
+
+.color-selector-btn>img {
+color: #111517;
+}
+
+.dark-mode {
+  background-color: #202C36;
+  color: white;
+}
+
+/** Front Page **/
 .cards {
   display: flex;
   flex-wrap: wrap;
 }
+
 .card {
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -13,6 +79,8 @@
 
 img {
   max-width: 100%;
+
+
 }
 
 h2 {
@@ -23,15 +91,18 @@ h2 {
 p {
   font-size: 16px;
   margin-bottom: 4px;
+
 }
 
 /* Country details page section*/
-.country-details{
+.country-details {
   border: 1px solid black;
 }
-.info-container{
+
+.info-container {
   border: 1px solid red;
 }
-.details-list{
+
+.details-list {
   border: 1px solid green;
 }
