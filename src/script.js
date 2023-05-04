@@ -63,76 +63,73 @@ fetch("https://restcountries.com/v3.1/all")
     console.error("Error fetching country data:", error);
   });
 
-  //function for country details
-  function showCountryDetailPage(country) {
-    // Hide the country cards container, search input, and filters
-    document.getElementById("country-cards").style.display = "none";
-    document.getElementById("search-input").style.display = "none";
-    document.getElementById("filter").style.display = "none";
-    document.getElementById("continent-select").style.display = "none";
-  
-    // Show the country detail container
-    const countryDetailElement = document.getElementById("country-details-page");
-    countryDetailElement.style.display = "block";
-  
-    // Add an image element with the country's flag image URL
-    const imageContainer = document.getElementById("image-container");
-    const flagElementSingle = document.createElement("img");
-    flagElementSingle.src = country.flags.png;
-    imageContainer.appendChild(flagElementSingle);
-  
-    // Set the country name in the detail container
-    const nameElement = countryDetailElement.querySelector("h2");
-    nameElement.textContent = country.name.common;
-  
-    // Add the country details to the details list
-    const detailsListElement = document.getElementById("details-list");
-    addDetailToCountryPage(detailsListElement, "Native Name", country.name.native.common);
-    addDetailToCountryPage(detailsListElement, "Population", country.population.toLocaleString());
-    addDetailToCountryPage(detailsListElement, "Region", country.region);
-    addDetailToCountryPage(detailsListElement, "Sub Region", country.subregion);
-    addDetailToCountryPage(detailsListElement, "Capital", country.capital);
-    addDetailToCountryPage(detailsListElement, "Top Level Domain", country.tld[0]);
-    addDetailToCountryPage(detailsListElement, "Currencies", Object.values(country.currencies).join(", "));
-    addDetailToCountryPage(detailsListElement, "Languages", Object.values(country.languages).join(", "));
-  
-    // Add the border countries to the border countries list
-    const borderCountriesElement = document.querySelector(".border-countries");
-    for (const borderCountryCode of country.borders) {
-      const borderCountry = findCountryByCode(borderCountryCode);
-      if (borderCountry) {
-        const borderCountryElement = document.createElement("li");
-        const borderCountryLink = document.createElement("a");
-        borderCountryLink.href = "#";
-        borderCountryLink.textContent = borderCountry.name.common;
-        borderCountryLink.addEventListener("click", () => showCountryDetailPage(borderCountry));
-        borderCountryElement.appendChild(borderCountryLink);
-        borderCountriesElement.appendChild(borderCountryElement);
-      }
-    }
-  
-    // Add the back button click event listener
-    const backButton = document.getElementById("back-button");
-    backButton.addEventListener("click", () => showCountryCardsPage());
-  }
-  
-  function addDetailToCountryPage(detailsListElement, detailLabel, detailValue) {
-    // Create a new list item element
-    const detailItem = document.createElement("li");
-  
-    // Add the label to the detail item
-    const detailLabelElement = document.createElement("span");
-    detailLabelElement.textContent = detailLabel + ": ";
-    detailItem.appendChild(detailLabelElement);
-  
-    // Add the value to the detail item
-    const detailValueElement = document.createElement("span");
-    detailValueElement.textContent = detailValue;
-    detailItem.appendChild(detailValueElement);
-  
-    // Add the detail item to the details list
-    detailsListElement.appendChild(detailItem);
-  }
+//function for country details
+function showCountryDetailPage(country) {
+  // Hide the country cards container, search input, and filters
+  document.getElementById("country-cards").style.display = "none";
+  document.getElementById("search-input").style.display = "none";
+  document.getElementById("filter").style.display = "none";
+  document.getElementById("continent-select").style.display = "none";
+
+  // Show the country detail container
+  const countryDetailElement = document.getElementById("country-details-page");
+  countryDetailElement.style.display = "flex";
+
+  // Add an image element with the country's flag image URL
+  const imageContainer = document.getElementById("image-container");
+  const flagElementSingle = document.createElement("img");
+  flagElementSingle.src = country.flags.png;
+  imageContainer.appendChild(flagElementSingle);
+
+  // Set the country name in the detail container
+  const nameElement = countryDetailElement.querySelector("h2");
+  nameElement.textContent = country.name.common;
+
+  // Add the country details to the details list
+  const detailsListElement = document.getElementById("details-list");
+
+
+
+  // Retrieve the native name of the country
+  const nativeName = Object.values(country.name.nativeName)[0].common;
+  // Add the native name to the details list
+  addDetailToCountryPage(detailsListElement, "Native Name", nativeName);
+  addDetailToCountryPage(detailsListElement, "Population", country.population.toLocaleString());
+  addDetailToCountryPage(detailsListElement, "Region", country.region);
+  addDetailToCountryPage(detailsListElement, "Sub Region", country.subregion);
+  addDetailToCountryPage(detailsListElement, "Capital", country.capital);
+  addDetailToCountryPage(detailsListElement, "Top Level Domain", country.tld[0]);
+  const currencyNames = Object.values(country.currencies).map(currency => currency.name);
+  addDetailToCountryPage(detailsListElement, "Currencies", currencyNames.join(", "));
+  addDetailToCountryPage(detailsListElement, "Languages", Object.values(country.languages).join(", "));
+  // // Add the border countries to the border countries list
+  addDetailToCountryPage(detailsListElement, "Border Countries",country.borders);
+
+const borderListElement = document.getElementById("border-countries");
+
+
+
+}
+
+function addDetailToCountryPage(detailsListElement, detailLabel, detailValue) {
+  // Create a new list item element
+  const detailItem = document.createElement("li");
+
+  // Add the label to the detail item
+  const detailLabelElement = document.createElement("span");
+  detailLabelElement.textContent = detailLabel + ": ";
+  detailItem.appendChild(detailLabelElement);
+
+  // Add the value to the detail item
+  const detailValueElement = document.createElement("span");
+  detailValueElement.textContent = detailValue;
+  detailItem.appendChild(detailValueElement);
+
+  // Add the detail item to the details list
+  detailsListElement.appendChild(detailItem);
+}
+
+
 
 
 //Sorting country by region
@@ -172,27 +169,3 @@ searchInput.addEventListener("input", (event) => {
     }
   });
 });
-
-// //show country details
-// function showCountryDetailPage(country) {
-//   // Hide the country cards container,search input,
-//   document.getElementById("country-cards").style.display = "none";
-//   document.getElementById("search-input").style.display = "none";
-//   document.getElementById("filter").style.display = "none";
-//   document.getElementById("continent-select").style.display = "none";
-
-//   // Show the country detail container
-//   const countryDetailElement = document.getElementById("country-details-page");
-//   countryDetailElement.style.display = "block";
-
-//   // Add an image element with the country's flag image URL
-//   const imageContainer = document.getElementById("image-container");
-//   const flagElementSingle = document.createElement("img");
-//   flagElementSingle.src = country.flags.png;
-//   imageContainer.appendChild(flagElementSingle);
-
-//   // Set the country name in the detail container
-//   const nameElement = countryDetailElement.querySelector("h2");
-//   nameElement.textContent = country.name.common;
-
-// }
